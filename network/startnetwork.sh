@@ -44,7 +44,8 @@ echo "--- Generating Orderer Genesis block"
 set -x
 configtxgen -profile TwoOrgsOrdererGenesis --channelID system-channel -outputBlock ./config/genesis.block
 
-docker-compose -f docker-compose.yaml up -d orderer.example.com peer0.org1.example.com peer1.org1.example.com peer0.org2.example.com peer1.org2.example.com
+# docker-compose -f docker-compose.yaml up -d orderer.example.com peer0.org1.example.com peer1.org1.example.com peer0.org2.example.com peer1.org2.example.com
+docker-compose -f docker-compose.yaml up -d orderer.example.com peer0.org1.example.com peer0.org2.example.com
 set +x
 
 sleep 5
