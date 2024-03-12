@@ -1,4 +1,4 @@
 export class AdminRequestDto {
-  adminid: string;
-  adminpw: string;
+  adminId: string;
+  adminPw: string;
 }

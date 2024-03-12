@@ -12,3 +12,7 @@ npm install react-router-dom
 ```
 npm install style-components
 ```
+### Install Axios
+```
+npm install axios
+```

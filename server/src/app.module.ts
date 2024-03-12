@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { LibModule } from './lib/lib.module';
+import { AdminModule } from './admin/admin.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [LibModule],
+  imports: [LibModule, AdminModule, UserModule],
   controllers: [],
   providers: [],
 })

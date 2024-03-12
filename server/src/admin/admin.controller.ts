@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { AdminService } from './admin.service';
 import { AdminRequestDto } from './dtos/AdminResponse.dto';
