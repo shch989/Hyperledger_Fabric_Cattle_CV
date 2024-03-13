@@ -14,6 +14,7 @@ type SmartContract struct {
 
 type CattleData struct {
 	CattleID  string            `json:"cattleId"`
+	UserID 	  string            `json:"userId"`
 	Residence string            `json:"residence"`
 	Birth     string            `json:"birth"`
 	ParentID  *ParentCattleData `json:"parentId"`
@@ -25,9 +26,9 @@ type ParentCattleData struct {
 }
 
 // CreateCattle
-func (s *SmartContract) CreateCattle(ctx contractapi.TransactionContextInterface, cattleId string, residence string, birth string, fatherId string, motherId string) error {
+func (s *SmartContract) CreateCattle(ctx contractapi.TransactionContextInterface, cattleId string, userId string, residence string, birth string, fatherId string, motherId string) error {
 	// 기등록된 cattle id가 있는지 검증
-	exists, err := s.EXPExists(ctx, cattleId)
+	exists, err := s.CattleExists(ctx, cattleId)
 	if err != nil {
 		return err
 	}
@@ -36,7 +37,8 @@ func (s *SmartContract) CreateCattle(ctx contractapi.TransactionContextInterface
 	}
 
 	cattle := CattleData{
-		CattleID:  cattleId,
+		CattleID: cattleId,
+		UserID: userId,
 		Residence: residence,
 		Birth:     birth,
 		ParentID: &ParentCattleData{
@@ -53,8 +55,8 @@ func (s *SmartContract) CreateCattle(ctx contractapi.TransactionContextInterface
 	return ctx.GetStub().PutState(cattleId, cattleJSON)
 }
 
-// AssetExists
-func (s *SmartContract) EXPExists(ctx contractapi.TransactionContextInterface, cattleId string) (bool, error) {
+// CattleExists
+func (s *SmartContract) CattleExists(ctx contractapi.TransactionContextInterface, cattleId string) (bool, error) {
 	cattleJSON, err := ctx.GetStub().GetState(cattleId)
 	if err != nil {
 		return false, fmt.Errorf("failed to read from world state: %v", err)
@@ -68,7 +70,7 @@ func (s *SmartContract) EXPExists(ctx contractapi.TransactionContextInterface, c
 	}
 }
 
-// ReadAsset
+// ReadCattle
 func (s *SmartContract) ReadCattle(ctx contractapi.TransactionContextInterface, cattleId string) (*CattleData, error) {
 	cattleJSON, err := ctx.GetStub().GetState(cattleId)
 	if err != nil {
@@ -85,6 +87,69 @@ func (s *SmartContract) ReadCattle(ctx contractapi.TransactionContextInterface, 
 	}
 
 	return &cattle, nil
+}
+
+// ReadAllCattleByUserID
+func (s *SmartContract) ReadAllCattleByUserId(ctx contractapi.TransactionContextInterface, userId string) ([]*CattleData, error) {
+    // 변수 초기화
+    var allCattleData []*CattleData
+
+    // 월드 스테이트에서 모든 키-값 쌍 가져오기
+    resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
+    if err != nil {
+        return nil, fmt.Errorf("failed to get all cattle data: %v", err)
+    }
+    defer resultsIterator.Close()
+
+    // 결과 반복
+    for resultsIterator.HasNext() {
+        // 결과 가져오기
+        queryResponse, err := resultsIterator.Next()
+        if err != nil {
+            return nil, fmt.Errorf("error while iterating over query results: %v", err)
+        }
+
+        // CattleData 구조체로 언마샬링
+        var cattle CattleData
+        err = json.Unmarshal(queryResponse.Value, &cattle)
+        if err != nil {
+            return nil, fmt.Errorf("failed to unmarshal cattle data: %v", err)
+        }
+
+        // 사용자 ID가 일치하는 경우에만 배열에 추가
+        if cattle.UserID == userId {
+            allCattleData = append(allCattleData, &cattle)
+        }
+    }
+
+    return allCattleData, nil
+}
+
+func (s *SmartContract) GetAllCattles(ctx contractapi.TransactionContextInterface) ([]*CattleData, error) {
+	var allCattleData []*CattleData
+
+	resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get all cattles: %v", err)
+	}
+	defer resultsIterator.Close()
+
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return nil, fmt.Errorf("error while iterating over query results: %v", err)
+		}
+
+		var cattle CattleData
+		err = json.Unmarshal(queryResponse.Value, &cattle)
+		if err != nil {
+			return nil, fmt.Errorf("failed to unmarshal cattle data: %v", err)
+		}
+
+		allCattleData = append(allCattleData, &cattle)
+	}
+
+	return allCattleData, nil
 }
 
 // main

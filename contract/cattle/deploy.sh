@@ -7,11 +7,11 @@ set -ex
 
 CHANNEL_NAME=samplechannal
 CHAINCODE_NAME=cattle
-IBANG_HOME=/home/user/project/cattle
+CATTLE_HOME=/home/user/project/cattle
 
 # org 2 -> 구성
 
-NET_DIR=${IBANG_HOME}/network
+NET_DIR=${CATTLE_HOME}/network
 export FABRIC_CFG_PATH=${NET_DIR}
 
 export CORE_PEER_TLS_ENABLED=true
@@ -36,7 +36,7 @@ setEnv() {
 }
 
 # package 명령
-peer lifecycle chaincode package ${CHAINCODE_NAME}.tar.gz --path ${IBANG_HOME}/contract/cattle --lang golang --label ${CHAINCODE_NAME}_$VER
+peer lifecycle chaincode package ${CHAINCODE_NAME}.tar.gz --path ${CATTLE_HOME}/contract/cattle --lang golang --label ${CHAINCODE_NAME}_$VER
 
 # org1 설치 명령
 setEnv 1
@@ -66,7 +66,24 @@ peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride o
 
 sleep 3
 
-# TEST - 가축 등록
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $ORDERER_CA  --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0_ORG2_CA -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["CreateCattle", "C100", "경북 예천시", "2020-01-22", "C43", "C39"]}'
+# TEST - 가축 등록 1
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $ORDERER_CA  --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0_ORG2_CA -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["CreateCattle", "C100", "User1", "경북 예천시", "2020-01-22", "C43", "C39"]}'
+# TEST - 가축 등록 2
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $ORDERER_CA  --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0_ORG2_CA -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["CreateCattle", "C101", "User1", "경북 예천시", "2021-02-08", "C33", "C54"]}'
+# TEST - 가축 등록 3
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $ORDERER_CA  --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0_ORG2_CA -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["CreateCattle", "C109", "User2", "경북 예천시", "2022-03-02", "C76", "C66"]}'
 
 sleep 3
+
+# TEST - 가축 조회
+peer chaincode query -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["ReadCattle", "C100"]}'
+
+sleep 3
+
+# TEST - 모든 가축 조회
+peer chaincode query -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["GetAllCattles"]}'
+
+sleep 3
+
+# TEST - 사용자 가축 조회
+peer chaincode query -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -c '{"Args":["ReadAllCattleByUserId", "User1"]}'
