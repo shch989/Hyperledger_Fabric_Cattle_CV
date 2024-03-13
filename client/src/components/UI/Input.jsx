@@ -54,7 +54,7 @@ const Input = (props) => {
 
   return (
     <InputWrapper>
-      <InputLabel>{label}:</InputLabel>
+      {label ? <InputLabel>{label}:</InputLabel> : null}
       <InputField
         type={type}
         value={value}

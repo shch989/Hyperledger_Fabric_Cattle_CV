@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import styled from 'styled-components';
 
 // Components
 import Input from '../components/UI/Input';
+import Navbar from '../components/common/NavBar/NavBar';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -79,6 +80,8 @@ const CreateAdminWalletPage = () => {
       });
 
       console.log('유저 지갑 생성 성공!');
+      setAdminId('')
+      setAdminPw('')
     } catch (error) {
       console.log('유저 지갑 생성 실패!');
     }
@@ -86,6 +89,7 @@ const CreateAdminWalletPage = () => {
 
   return (
     <Wrapper>
+      <Navbar/>
       <FormWrapper>
         <Title>관리자 지갑 생성</Title>
         <form onSubmit={handleSubmit}>
