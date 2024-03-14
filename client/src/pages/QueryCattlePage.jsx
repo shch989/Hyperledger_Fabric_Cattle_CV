@@ -7,6 +7,7 @@ import Navbar from '../components/common/NavBar/NavBar';
 import UserCattleCard from '../components/UI/UserCattleCard';
 import Input from '../components/UI/Input';
 import Button from '../components/UI/Button';
+import NoneData from '../components/query/NoneData';
 
 const MainTitleStyle = styled.div`
   margin-top: 20px;
@@ -60,7 +61,7 @@ const QueryCattlePage = () => {
           <Input type="text" value={cattleId} onChange={(e) => setCattleId(e.target.value)} />
           <Button onClick={handleSearch}>검색</Button>
         </StyledDiv>
-        <UserCattleCard cattle={cattleData} />
+        {cattleData ? <UserCattleCard cattle={cattleData} /> : <NoneData />}
       </MainBackground>
     </Fragment>
   );

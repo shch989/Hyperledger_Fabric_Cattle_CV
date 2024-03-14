@@ -31,4 +31,10 @@ export class CattleController {
     const cattleResult = await this.cattleService.ReadCattle(userId, cattleId)
     return cattleResult
   }
+
+  @Get(':userId/:cattleId/family-tree')
+  async getFamilyTree(@Param('userId') userId: string, @Param('cattleId') cattleId: string) {
+    const cattleResult = await this.cattleService.getFamilyTree(userId, cattleId)
+    return cattleResult
+  }
 }

@@ -71,6 +71,9 @@ const Navbar = () => {
           <MenuItem isActive={pathname === '/query-cattle'}>
             <a href="/query-cattle">가축 검색</a>
           </MenuItem>
+          <MenuItem isActive={pathname === '/cattle-family-tree'}>
+          <a href="/cattle-family-tree">혈통 정보</a>
+        </MenuItem>
         </Menu>
       </MainNav>
     </Container>

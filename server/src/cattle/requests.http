@@ -13,6 +13,81 @@ Content-Type: application/json
   }
 }
 
+### 가축 추가 POST
+POST http://localhost:5000/cattle
+Content-Type: application/json
+
+{
+  "cattleId": "C43",
+  "userId": "user2",
+  "residence": "경북 예천시",
+  "birth": "2020-01-22",
+  "parentId": {
+    "fatherId": "",
+    "motherId": "C29"
+  }
+}
+
+### 가축 추가 POST
+POST http://localhost:5000/cattle
+Content-Type: application/json
+
+{
+  "cattleId": "C29",
+  "userId": "user2",
+  "residence": "경북 예천시",
+  "birth": "2020-01-22",
+  "parentId": {
+    "fatherId": "C12",
+    "motherId": ""
+  }
+}
+
+### 가축 추가 POST
+POST http://localhost:5000/cattle
+Content-Type: application/json
+
+{
+  "cattleId": "C12",
+  "userId": "user2",
+  "residence": "경북 예천시",
+  "birth": "2020-01-22",
+  "parentId": {
+    "fatherId": "",
+    "motherId": ""
+  }
+}
+
+### 가축 추가 POST
+POST http://localhost:5000/cattle
+Content-Type: application/json
+
+{
+  "cattleId": "C39",
+  "userId": "user2",
+  "residence": "경북 예천시",
+  "birth": "2020-01-22",
+  "parentId": {
+    "fatherId": "",
+    "motherId": ""
+  }
+}
+
+### 가축 추가 POST
+POST http://localhost:5000/cattle
+Content-Type: application/json
+
+{
+  "cattleId": "C99",
+  "userId": "user2",
+  "residence": "경북 예천시",
+  "birth": "2020-01-22",
+  "parentId": {
+    "fatherId": "",
+    "motherId": ""
+  }
+}
+
 ### 모든 가축 조회 GET
 GET http://localhost:5000/cattle/user2/all-cattles
 
@@ -21,3 +96,6 @@ GET http://localhost:5000/cattle/user2
 
 ### 사용자의 특정 가축 조회 GET
 GET http://localhost:5000/cattle/user2/C105
+
+### 사용자의 특정 가축 족보 조회 GET
+GET http://localhost:5000/cattle/user2/C105/family-tree

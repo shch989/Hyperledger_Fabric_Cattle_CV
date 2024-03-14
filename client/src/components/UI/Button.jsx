@@ -12,7 +12,8 @@ const StyledButton = styled.button`
   text-align: center;
   font-weight: 600;
   border-radius: 4px;
-  background-color: #111;
+  background-color: #008080;
+  margin-left: 5px;
 
   &:focus {
     outline: none;

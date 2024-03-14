@@ -6,6 +6,7 @@ import CreateUserWalletPage from './pages/CreateUserWalletPage';
 import QueryCattlePage from './pages/QueryCattlePage';
 import QueryAllCattlePage from './pages/QueryAllCattlePage';
 import CreateCattlePage from './pages/CreateCattlePage';
+import CattleTreePage from './pages/CattleTreePage';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/add-cattle" element={<CreateCattlePage />} />
         <Route path="/query-all-cattle" element={<QueryAllCattlePage />} />
         <Route path="/query-cattle" element={<QueryCattlePage />} />
+        <Route path="/cattle-family-tree" element={<CattleTreePage />} />
       </Routes>
     </Router>
   )
