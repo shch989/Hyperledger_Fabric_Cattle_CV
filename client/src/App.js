@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/add-cattle" element={<CreateCattlePage />} />
         <Route path="/query-all-cattle" element={<QueryAllCattlePage />} />
         <Route path="/query-cattle" element={<QueryCattlePage />} />
-        <Route path="/cattle-family-tree" element={<CattleTreePage />} />
+        <Route path="/cattle-family-tree/:cattleId" element={<CattleTreePage />} />
       </Routes>
     </Router>
   )
