@@ -3,6 +3,9 @@ POST http://localhost:5000/user
 Content-Type: application/json
 
 {
-  "userId": "user2",
+  "userId": "user3",
   "affilication": "org1.department1"
 }
+
+### 유저 로그인 GET
+GET  http://localhost:5000/user/login/user3

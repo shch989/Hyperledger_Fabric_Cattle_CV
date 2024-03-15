@@ -18,7 +18,27 @@ export class UserService {
 
       const rObj = { message: `An user id is created - ${uid}` };
       return rObj;
-      
+
+    } catch (error) {
+      console.error(error);
+      throw new HttpException({
+        error: error.message,
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async loginUser(userId: string) {
+    const uid = userId
+    console.log(uid)
+
+    try {
+      const wallet = await this.appUtilsService.buildWallet();
+      const loginSuccess = await this.caUtilsService.isUserIdExists(wallet, uid)
+      if (loginSuccess) {
+        return uid
+      } else {
+        throw new Error(`Wallet for the user ID does not exist.`)
+      }
     } catch (error) {
       console.error(error);
       throw new HttpException({

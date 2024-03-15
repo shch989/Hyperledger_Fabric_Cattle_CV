@@ -103,4 +103,20 @@ export class CAUtilsService {
       throw new Error(error);
     }
   }
+
+  async isUserIdExists(wallet: Wallet, userId: string): Promise<boolean> {
+    try {
+      const userIdentity = await wallet.get(userId);
+      if (userIdentity) {
+        console.log(`The identity for the user ${userId} already exists in the wallet`);
+        return true;
+      } else {
+        console.log(`The identity for the user ${userId} does not exist in the wallet`);
+        return false;
+      }
+    } catch (error) {
+      console.error(`Failed to check user identity: ${error}`);
+      throw new Error(error);
+    }
+  }
 }

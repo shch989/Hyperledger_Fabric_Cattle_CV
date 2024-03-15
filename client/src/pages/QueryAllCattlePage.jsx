@@ -5,6 +5,7 @@ import UserCattleCard from '../components/UI/UserCattleCard';
 import MainBackground from '../components/UI/MainBackground';
 import MainTitle from '../components/common/Main/MainTitle';
 import Navbar from '../components/common/NavBar/NavBar';
+import { useNavigate } from 'react-router-dom';
 
 const StyledGrid = styled.div`
   display: grid;
@@ -14,17 +15,29 @@ const StyledGrid = styled.div`
   overflow: auto; 
 `;
 
+const StyledLinkTag = styled.a`
+  color: #111;
+  text-decoration: none;
+`
+
 const MainTitleStyle = styled.div`
   margin-top: 20px;
 `;
 
 const QueryAllCattlePage = () => {
   const [cattleData, setCattleData] = useState([]);
+  const navigate = useNavigate();
+  const breederData = sessionStorage.getItem('breeder');
 
   useEffect(() => {
+    if (!breederData) {
+      navigate("/user-login");
+      return;
+    }
+
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/cattle/user2/all-cattles');
+        const response = await axios.get(`http://localhost:5000/cattle/${breederData}/all-cattles`);
         const responseData = response.data.data.message;
         setCattleData(responseData);
         console.log('가축정보 출력 완료!');
@@ -34,9 +47,9 @@ const QueryAllCattlePage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [breederData, navigate]);
 
-  console.log(cattleData)
+  console.log(cattleData);
 
   return (
     <Fragment>
@@ -48,7 +61,7 @@ const QueryAllCattlePage = () => {
         {cattleData.length > 0 && (
           <StyledGrid>
             {cattleData.map((cattle) => (
-              <UserCattleCard key={cattle.cattleId} cattle={cattle} />
+              <StyledLinkTag href={`cattle-family-tree/${cattle.cattleId}`}><UserCattleCard key={cattle.cattleId} cattle={cattle} /></StyledLinkTag>
             ))}
           </StyledGrid>
         )}

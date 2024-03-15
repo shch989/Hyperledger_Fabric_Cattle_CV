@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
 import axios from 'axios';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'
 
 // Components
 import Input from '../components/UI/Input';
@@ -66,24 +66,20 @@ const Button = styled.button`
   }
 `;
 
-const CreateAdminWalletPage = () => {
-  const [adminId, setAdminId] = useState('');
-  const [adminPw, setAdminPw] = useState('');
+const LoginUserWalletPage = () => {
+  const [userId, setUserId] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await axios.post('http://localhost:5000/admin', {
-        adminId,
-        adminPw,
-      });
-
-      console.log('유저 지갑 생성 성공!');
-      setAdminId('')
-      setAdminPw('')
+      const breeder = await axios.get(`http://localhost:5000/user/login/${userId}`);
+      const breederId = breeder.data.data
+      sessionStorage.setItem('breeder', breederId);
+      console.log('로그인 완료!');
+      setUserId('')
     } catch (error) {
-      console.log('유저 지갑 생성 실패!');
+      console.log('로그인 실패!');
     }
   };
 
@@ -91,28 +87,22 @@ const CreateAdminWalletPage = () => {
     <Wrapper>
       <Navbar/>
       <FormWrapper>
-        <Title>관리자 지갑 생성</Title>
+        <Title>유저 로그인</Title>
         <form onSubmit={handleSubmit}>
           <Input
             label="아이디"
             type="text"
-            value={adminId}
-            onChange={(e) => setAdminId(e.target.value)}
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
           />
-          <Input
-            label="비밀번호"
-            type="password"
-            value={adminPw}
-            onChange={(e) => setAdminPw(e.target.value)}
-          />
-          <Button type="submit">회원가입</Button>
+          <Button type="submit">로그인</Button>
           <Text>
-            관리자가 아니신가요? <Link to="/user-register">사용자 지갑 생성</Link>
+            지갑이 없으신가요? <Link to="/user-register">유저 지갑 생성</Link>
           </Text>
         </form>
       </FormWrapper>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default CreateAdminWalletPage
+export default LoginUserWalletPage

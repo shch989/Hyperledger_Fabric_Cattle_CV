@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import axios from 'axios';
 import MainBackground from '../components/UI/MainBackground';
@@ -22,11 +23,20 @@ const StyledDiv = styled.div`
 `;
 
 const QueryCattlePage = () => {
+  const navigate = useNavigate();
+
   const [cattleId, setCattleId] = useState('');
   const [cattleData, setCattleData] = useState({});
   const [searching, setSearching] = useState(false);
 
+  const breederData = sessionStorage.getItem('breeder')
+
   useEffect(() => {
+    if (!breederData) {
+      navigate("/user-login");
+      return;
+    }
+  
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/cattle/user2/${cattleId}`);
@@ -44,7 +54,7 @@ const QueryCattlePage = () => {
     if (searching && cattleId.trim() !== '') {
       fetchData();
     }
-  }, [searching, cattleId]);
+  }, [breederData, searching, cattleId]);
 
   const handleSearch = () => {
     setSearching(true);

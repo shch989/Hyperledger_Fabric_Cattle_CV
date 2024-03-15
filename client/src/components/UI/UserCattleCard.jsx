@@ -10,15 +10,6 @@ const StyledCard = styled.div`
   background-color: ${props => props.isAlive ? 'transparent' : 'rgba(0, 0, 0, 0.2)'};
 `;
 
-/*
-const SellCattleLink = styled.a`
-  text-decoration: none; 
-  font-weight: 600;
-  color: #111;
-  margin: 0 10px;  
-`
-*/
-
 const UserCattleCard = (props) => {
   const { cattleId, userId, residence, birth, parentId } = props.cattle
 

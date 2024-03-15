@@ -56,12 +56,12 @@ const Navbar = () => {
     <Container>
       <MainNav>
         <Menu>
-          <MenuItem isActive={pathname === '/'}>
-            <a href="/">관리자 생성</a>
-          </MenuItem>
-          <MenuItem isActive={pathname === '/user-login'}>
-            <a href="/user-login">사용자 생성</a>
-          </MenuItem>
+        <MenuItem isActive={pathname === '/user-register'}>
+        <a href="/user-register">사용자 생성</a>
+        </MenuItem>
+        <MenuItem isActive={pathname === '/user-login'}>
+          <a href="/user-login">사용자 로그인</a>
+        </MenuItem>
           <MenuItem isActive={pathname === '/add-cattle'}>
             <a href="/add-cattle">가축 등록</a>
           </MenuItem>
@@ -71,9 +71,6 @@ const Navbar = () => {
           <MenuItem isActive={pathname === '/query-cattle'}>
             <a href="/query-cattle">가축 검색</a>
           </MenuItem>
-          <MenuItem isActive={pathname === '/cattle-family-tree'}>
-          <a href="/cattle-family-tree">혈통 정보</a>
-        </MenuItem>
         </Menu>
       </MainNav>
     </Container>

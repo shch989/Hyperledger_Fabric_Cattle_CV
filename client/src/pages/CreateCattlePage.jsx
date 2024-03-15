@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -55,12 +56,23 @@ const Button = styled.button`
 `;
 
 const CreateCattlePage = () => {
+  const navigate = useNavigate();
+
   const [cattleId, setCattleId] = useState('');
   const [userId, setUserId] = useState('');
   const [residence, setResidence] = useState('');
   const [birth, setBirth] = useState('');
   const [fatherId, setFatherId] = useState('')
   const [motherId, setMotherId] = useState('')
+
+  const breederData = sessionStorage.getItem('breeder')
+
+  useEffect(() => {
+    if (!breederData) {
+      navigate("/user-login");
+      return;
+    }
+  }, [breederData]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
