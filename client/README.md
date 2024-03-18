@@ -16,3 +16,7 @@ npm install style-components
 ```
 npm install axios
 ```
+### Install React Organizational Chart
+```
+npm install react-organizational-chart
+```
